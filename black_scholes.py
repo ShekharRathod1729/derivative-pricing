@@ -134,7 +134,7 @@ def bsm_put(
   return put_value
 
 def bsm_delta(  
-  OptionType: str,
+  option_type: str,
   S : float, 
   K : float,
   r : float, 
@@ -146,7 +146,7 @@ def bsm_delta(
 
   Parameters
   ==========
-  OptionType: str
+  option_type: str
       Takes either "call" or "put" as value
   S : float
       Stock price/index level at time 0.
@@ -167,18 +167,18 @@ def bsm_delta(
   d1 = calc_d1(S, K, r, sigma, T)
   delta_call = snv_cdf(d1)
 
-  if OptionType == "call":
+  if option_type == "call":
     return delta_call
   
-  elif OptionType == "put":
+  elif option_type == "put":
     return delta_call - 1
   
   else:
-    raise ValueError("OptionType must be 'call' or 'put'.")
+    raise ValueError("option_type must be 'call' or 'put'.")
   
 
 def bsm_gamma(  
-  OptionType: str,
+  option_type: str,
   S : float, 
   K : float,
   r : float, 
@@ -190,7 +190,7 @@ def bsm_gamma(
 
   Parameters
   ==========
-  OptionType: str
+  option_type: str
       Takes either "call" or "put" as value
   S : float
       Stock price/index level at time 0.
@@ -211,15 +211,15 @@ def bsm_gamma(
   d1 = calc_d1(S, K, r, sigma, T)
   gamma = snv_pdf(d1) / (S * sigma * np.sqrt(T))
 
-  if OptionType == "call" or OptionType == "put":
+  if option_type == "call" or option_type == "put":
     return gamma
  
   else:
-    raise ValueError("OptionType must be 'call' or 'put'.")
+    raise ValueError("option_type must be 'call' or 'put'.")
   
 
 def bsm_theta(  
-  OptionType: str,
+  option_type: str,
   S : float, 
   K : float,
   r : float, 
@@ -231,7 +231,7 @@ def bsm_theta(
 
   Parameters
   ==========
-  OptionType: str
+  option_type: str
       Takes either "call" or "put" as value
   S : float
       Stock price/index level at time 0.
@@ -253,17 +253,17 @@ def bsm_theta(
   d2 = d1 - sigma * np.sqrt(T)
   theta = - S * snv_pdf(d1) * sigma / (2 * np.sqrt(T)) - r * np.exp(-r * T) * K * snv_cdf(d2)
 
-  if OptionType == "call":
+  if option_type == "call":
     return theta
   
-  elif OptionType == "put":
+  elif option_type == "put":
     return theta + r * K * np.exp(-r * T)
   
   else:
-    raise ValueError("OptionType must be 'call' or 'put'.")
+    raise ValueError("option_type must be 'call' or 'put'.")
   
 def bsm_rho(  
-  OptionType: str,
+  option_type: str,
   S : float, 
   K : float,
   r : float, 
@@ -275,7 +275,7 @@ def bsm_rho(
 
   Parameters
   ==========
-  OptionType: str
+  option_type: str
       Takes either "call" or "put" as value
   S : float
       Stock price/index level at time 0.
@@ -297,17 +297,17 @@ def bsm_rho(
   d2 = d1 - sigma * np.sqrt(T)
   
 
-  if OptionType == "call":
+  if option_type == "call":
     return K * T * np.exp(-r * T) * snv_cdf(d2)
   
-  elif OptionType == "put":
+  elif option_type == "put":
     return -K * T * np.exp(-r * T) * snv_cdf(-d2)
   
   else:
-    raise ValueError("OptionType must be 'call' or 'put'.")
+    raise ValueError("option_type must be 'call' or 'put'.")
   
 def bsm_vega(  
-  OptionType: str,
+  option_type: str,
   S : float, 
   K : float,
   r : float, 
@@ -319,7 +319,7 @@ def bsm_vega(
 
   Parameters
   ==========
-  OptionType: str
+  option_type: str
       Takes either "call" or "put" as value
   S : float
       Stock price/index level at time 0.
@@ -339,8 +339,8 @@ def bsm_vega(
   """
   d1 = calc_d1(S, K, r, sigma, T)
 
-  if OptionType == "call" or OptionType == "put":
+  if option_type == "call" or option_type == "put":
     return S * snv_pdf(d1) * np.sqrt(T)
  
   else:
-    raise ValueError("OptionType must be 'call' or 'put'.")
+    raise ValueError("option_type must be 'call' or 'put'.")
